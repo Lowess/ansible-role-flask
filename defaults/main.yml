@@ -5,6 +5,6 @@ flask_root_folder: /opt/flask
 flask_user: app
 
 flask_package: flask-helloworld
-flask_version: 0.0.7
+flask_version: 1.0.0
 
 flask_nginx_port: 80

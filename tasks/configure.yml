@@ -15,6 +15,8 @@
     name: "{{ flask_package }}"
     version: "{{ flask_version }}"
     virtualenv: "{{ flask_root_folder }}/.venv"
+  notify:
+    - Reload Emperor
 
 # uWSGI configuration
 
