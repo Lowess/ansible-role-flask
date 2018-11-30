@@ -1,0 +1,10 @@
+---
+# defaults file for ansible-role-flask
+
+flask_root_folder: /opt/flask
+flask_user: app
+
+flask_package: flask-helloworld
+flask_version: 0.0.7
+
+flask_nginx_port: 80

@@ -1,0 +1,26 @@
+---
+
+kind: pipeline
+name: default
+workspace:
+  base: /drone
+  path: src/${DRONE_REPO}
+
+steps:
+  - name: test
+    image: plugins/docker
+    commands:
+      - docker ps
+
+services:
+  - name: ubuntu_trusty
+    image: ubuntu:trusty
+    commands:
+      - apt-get update && apt-get install -y python-minimal
+      - sleep infinity & wait
+
+  - name: ubuntu_xenial
+    image: solita/ubuntu-systemd:xenial
+    commands:
+      - apt-get update && apt-get install -y python-minimal
+      - sleep infinity & wait

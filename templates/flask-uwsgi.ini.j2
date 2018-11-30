@@ -1,0 +1,13 @@
+[uwsgi]
+socket = :3031
+stats = 127.0.0.1:1717
+
+pythonpath = {{ flask_root_folder }}/.venv/lib/python3.*/site-packages
+
+module = {{ flask_package | replace('-', '_') }}
+callable = app
+
+master = true
+
+; Process is dynamically configured
+; processes = 2

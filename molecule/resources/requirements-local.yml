@@ -1,0 +1,9 @@
+---
+- src: https://github.com/Lowess/ansible-role-common.git
+  name: Lowess.common
+
+- src: https://github.com/Lowess/ansible-role-uwsgi.git
+  name: Lowess.uwsgi
+
+- src: https://github.com/Lowess/ansible-role-nginx.git
+  name: Lowess.nginx

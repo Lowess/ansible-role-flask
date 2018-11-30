@@ -1,0 +1,63 @@
+---
+# configuration file for ansible-role-flask
+
+- name: Create application folder
+  file:
+    state: directory
+    path: "{{ flask_root_folder }}"
+    owner: "{{ flask_user }}"
+    group: "{{ flask_user }}"
+    mode: 0755
+
+- name: Install Flask App
+  pip:
+    state: present
+    name: "{{ flask_package }}"
+    version: "{{ flask_version }}"
+    virtualenv: "{{ flask_root_folder }}/.venv"
+
+# uWSGI configuration
+
+- name: Deploy uWSGI ini configuration
+  template:
+    src: flask-uwsgi.ini.j2
+    dest: /etc/uwsgi/apps-available/flask.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload Emperor
+
+- name: Symlink uWSGI ini configuration
+  file:
+    state: link
+    src: /etc/uwsgi/apps-available/flask.ini
+    dest: /etc/uwsgi/apps-enabled/flask.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload Emperor
+
+# Nginx configuration
+
+- name: Deploy Nginx configuration
+  template:
+    src: flask-nginx.j2
+    dest: /etc/nginx/sites-available/flask
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload Nginx
+
+- name: Symlink uWSGI ini configuration
+  file:
+    state: link
+    src: /etc/nginx/sites-available/flask
+    dest: /etc/nginx/sites-enabled/flask
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Reload Nginx
