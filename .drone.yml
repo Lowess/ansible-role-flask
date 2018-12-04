@@ -7,17 +7,17 @@ workspace:
   path: src/${DRONE_REPO}
 
 steps:
-  # - name: molecule
-  #   image: lowess/drone-molecule:2.6.8
-  #   environment:
-  #     CI_UUID: _2.6_${DRONE_COMMIT_SHA:0:8}
-  #     ANSIBLE_STRATEGY: mitogen_linear
-  #   pull: true
-  #   settings:
-  #     task: test
-  #   volumes:
-  #     - name: dockersock
-  #       path: /var/run/docker.sock
+  - name: molecule
+    image: lowess/drone-molecule:2.6.8
+    environment:
+      CI_UUID: _2.6_${DRONE_COMMIT_SHA:0:8}
+      ANSIBLE_STRATEGY: mitogen_linear
+    pull: true
+    settings:
+      task: test
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
 
   - name: galaxy
     image: lowess/drone-molecule:2.6.8
