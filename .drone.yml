@@ -23,7 +23,7 @@ steps:
       ANSIBLE_STRATEGY: mitogen_linear
     <<: *molecule
 
-- name: molecule-2.5
+  - name: molecule-2.5
     image: lowess/drone-molecule:2.5.8
     environment:
       CI_UUID: _2.5_${DRONE_COMMIT_SHA:0:8}
