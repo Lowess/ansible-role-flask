@@ -1,17 +1,5 @@
 ---
 
-# Yaml anchor to keep pipelines dry
-molecule: &molecule
-  pull: true
-  settings:
-    task: test
-  volumes:
-    - name: dockersock
-      path: /var/run/docker.sock
-  group: molecule
-
----
-
 kind: pipeline
 name: ansible-2.4
 workspace:
@@ -24,7 +12,12 @@ steps:
     environment:
       CI_UUID: _2.4_${DRONE_COMMIT_SHA:0:8}
       ANSIBLE_STRATEGY: mitogen_linear
-    <<: *molecule
+    pull: true
+    settings:
+      task: test
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
 
 volumes:
   - name: dockersock
@@ -45,7 +38,12 @@ steps:
     environment:
       CI_UUID: _2.5_${DRONE_COMMIT_SHA:0:8}
       ANSIBLE_STRATEGY: mitogen_linear
-    <<: *molecule
+    pull: true
+    settings:
+      task: test
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
 
 volumes:
   - name: dockersock
@@ -66,7 +64,13 @@ steps:
     environment:
       CI_UUID: _2.6_${DRONE_COMMIT_SHA:0:8}
       ANSIBLE_STRATEGY: mitogen_linear
-    <<: *molecule
+    pull: true
+    settings:
+      task: test
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+
 
 volumes:
   - name: dockersock
