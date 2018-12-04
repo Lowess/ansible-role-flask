@@ -13,19 +13,22 @@ molecule: &molecule
   volumes:
     - name: dockersock
       path: /var/run/docker.sock
+  group: molecule
 
 steps:
-  # - name: molecule-2.2
-  #   image: lowess/drone-molecule:2.2.3.0
-  #   environment:
-  #     CI_UUID: _2.2_${DRONE_COMMIT_SHA:0:8}
-  #   pull: true
-  #   settings:
-  #     task: test
-  #   volumes:
-  #     - name: dockersock
-  #       path: /var/run/docker.sock
+  - name: molecule-2.4
+    image: lowess/drone-molecule:2.4.6.0
+    environment:
+      CI_UUID: _2.4_${DRONE_COMMIT_SHA:0:8}
+      ANSIBLE_STRATEGY: mitogen_linear
+    <<: *molecule
 
+- name: molecule-2.5
+    image: lowess/drone-molecule:2.5.8
+    environment:
+      CI_UUID: _2.5_${DRONE_COMMIT_SHA:0:8}
+      ANSIBLE_STRATEGY: mitogen_linear
+    <<: *molecule
 
   - name: molecule-2.6
     image: lowess/drone-molecule:2.6.8
