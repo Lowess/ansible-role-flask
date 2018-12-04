@@ -1,76 +1,31 @@
 ---
 
 kind: pipeline
-name: ansible-2.4
+name: ansible-ci
 workspace:
   base: /drone
   path: src/${DRONE_REPO}
 
 steps:
-  - name: molecule-2.4
-    image: lowess/drone-molecule:2.4.6.0
-    environment:
-      CI_UUID: _2.4_${DRONE_COMMIT_SHA:0:8}
-      ANSIBLE_STRATEGY: mitogen_linear
-    pull: true
-    settings:
-      task: test
-    volumes:
-      - name: dockersock
-        path: /var/run/docker.sock
+  # - name: molecule
+  #   image: lowess/drone-molecule:2.6.8
+  #   environment:
+  #     CI_UUID: _2.6_${DRONE_COMMIT_SHA:0:8}
+  #     ANSIBLE_STRATEGY: mitogen_linear
+  #   pull: true
+  #   settings:
+  #     task: test
+  #   volumes:
+  #     - name: dockersock
+  #       path: /var/run/docker.sock
 
-volumes:
-  - name: dockersock
-    host:
-      path: /var/run/docker.sock
-
----
-
-kind: pipeline
-name: ansible-2.5
-workspace:
-  base: /drone
-  path: src/${DRONE_REPO}
-
-steps:
-  - name: molecule-2.5
-    image: lowess/drone-molecule:2.4.6.0
-    environment:
-      CI_UUID: _2.5_${DRONE_COMMIT_SHA:0:8}
-      ANSIBLE_STRATEGY: mitogen_linear
-    pull: true
-    settings:
-      task: test
-    volumes:
-      - name: dockersock
-        path: /var/run/docker.sock
-
-volumes:
-  - name: dockersock
-    host:
-      path: /var/run/docker.sock
-
----
-
-kind: pipeline
-name: ansible-2.6
-workspace:
-  base: /drone
-  path: src/${DRONE_REPO}
-
-steps:
-  - name: molecule-2.6
+  - name: galaxy
     image: lowess/drone-molecule:2.6.8
     environment:
-      CI_UUID: _2.6_${DRONE_COMMIT_SHA:0:8}
-      ANSIBLE_STRATEGY: mitogen_linear
-    pull: true
-    settings:
-      task: test
-    volumes:
-      - name: dockersock
-        path: /var/run/docker.sock
-
+      GALAXY_TOKEN:
+        from_secret: ansible_galaxy_token
+    commands:
+      - ansible-galaxy login --github-token ${GALAXY_TOKEN}
 
 volumes:
   - name: dockersock
