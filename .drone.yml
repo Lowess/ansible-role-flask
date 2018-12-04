@@ -13,14 +13,8 @@ molecule: &molecule
   volumes:
     - name: dockersock
       path: /var/run/docker.sock
-  group: molecule
 
 steps:
-  - name: test
-    image: alpine
-    commands:
-      - echo ${DRONE_STEP_NUMBER}
-
   - name: molecule-2.2
     image: lowess/drone-molecule:2.2.3.0
     environment:
