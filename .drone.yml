@@ -7,16 +7,16 @@ workspace:
   path: src/${DRONE_REPO}
 
 steps:
-  - name: molecule-2.2
-    image: lowess/drone-molecule:2.2.3.0
-    environment:
-      CI_UUID: _2.2_${DRONE_COMMIT_SHA:0:8}
-    pull: true
-    settings:
-      task: test
-    volumes:
-      - name: dockersock
-        path: /var/run/docker.sock
+  # - name: molecule-2.2
+  #   image: lowess/drone-molecule:2.2.3.0
+  #   environment:
+  #     CI_UUID: _2.2_${DRONE_COMMIT_SHA:0:8}
+  #   pull: true
+  #   settings:
+  #     task: test
+  #   volumes:
+  #     - name: dockersock
+  #       path: /var/run/docker.sock
 
 
   - name: molecule-2.6
