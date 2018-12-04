@@ -1,21 +1,35 @@
 ---
 
 kind: pipeline
-name: default
+name: ansible-ci
 workspace:
   base: /drone
   path: src/${DRONE_REPO}
 
-steps:
-  - name: molecule
-    image: lowess/drone-molecule:2.6.8
-    pull: true
-    settings:
-      task: test
-    volumes:
-      - name: dockersock
-        path: /var/run/docker.sock
+molecule: &molecule
+  pull: true
+  settings:
+    task: test
+  environment:
+    - CI_UUID=_${DRONE_STEP_NUMBER}_${DRONE_COMMIT_SHA:0:8}
+  volumes:
+    - name: dockersock
+      path: /var/run/docker.sock
+  group: molecule
 
+steps:
+  - name: test
+    image: alpine
+    commands:
+      - echo ${DRONE_STEP_NUMBER}
+
+  - name: molecule-2.2
+    image: lowess/drone-molecule:2.2.3.0
+    <<: *molecule
+
+  - name: molecule-2.6
+    image: lowess/drone-molecule:2.6.8
+    <<: *molecule
 
 volumes:
   - name: dockersock
