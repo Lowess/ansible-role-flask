@@ -25,6 +25,7 @@ steps:
       GALAXY_TOKEN:
         from_secret: ansible_galaxy_token
     commands:
+      - printenv
       - ansible-galaxy login --github-token ${GALAXY_TOKEN}
 
 volumes:
