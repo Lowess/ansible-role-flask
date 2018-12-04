@@ -1,11 +1,6 @@
 ---
 
-kind: pipeline
-name: ansible-ci
-workspace:
-  base: /drone
-  path: src/${DRONE_REPO}
-
+# Yaml anchor to keep pipelines dry
 molecule: &molecule
   pull: true
   settings:
@@ -15,6 +10,14 @@ molecule: &molecule
       path: /var/run/docker.sock
   group: molecule
 
+---
+
+kind: pipeline
+name: ansible-2.4
+workspace:
+  base: /drone
+  path: src/${DRONE_REPO}
+
 steps:
   - name: molecule-2.4
     image: lowess/drone-molecule:2.4.6.0
@@ -23,13 +26,41 @@ steps:
       ANSIBLE_STRATEGY: mitogen_linear
     <<: *molecule
 
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
+
+---
+
+kind: pipeline
+name: ansible-2.5
+workspace:
+  base: /drone
+  path: src/${DRONE_REPO}
+
+steps:
   - name: molecule-2.5
-    image: lowess/drone-molecule:2.5.8
+    image: lowess/drone-molecule:2.4.6.0
     environment:
       CI_UUID: _2.5_${DRONE_COMMIT_SHA:0:8}
       ANSIBLE_STRATEGY: mitogen_linear
     <<: *molecule
 
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
+
+---
+
+kind: pipeline
+name: ansible-2.6
+workspace:
+  base: /drone
+  path: src/${DRONE_REPO}
+
+steps:
   - name: molecule-2.6
     image: lowess/drone-molecule:2.6.8
     environment:
@@ -41,3 +72,4 @@ volumes:
   - name: dockersock
     host:
       path: /var/run/docker.sock
+
