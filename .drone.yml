@@ -6,24 +6,30 @@ workspace:
   base: /drone
   path: src/${DRONE_REPO}
 
-molecule: &molecule
-  pull: true
-  settings:
-    task: test
-  volumes:
-    - name: dockersock
-      path: /var/run/docker.sock
-
 steps:
   - name: molecule-2.2
     image: lowess/drone-molecule:2.2.3.0
-    <<: *molecule
+    environment:
+      CI_UUID: _2.2_${DRONE_COMMIT_SHA:0:8}
+    pull: true
+    settings:
+      task: test
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+
 
   - name: molecule-2.6
     image: lowess/drone-molecule:2.6.8
     environment:
+      CI_UUID: _2.6_${DRONE_COMMIT_SHA:0:8}
       ANSIBLE_STRATEGY: mitogen_linear
-    <<: *molecule
+    pull: true
+    settings:
+      task: test
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
 
 volumes:
   - name: dockersock
