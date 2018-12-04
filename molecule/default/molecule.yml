@@ -3,7 +3,7 @@
 dependency:
   name: galaxy
   options:
-    role-file: ${PWD}/molecule/resources/requirements-${CI:-local}.yml
+    role-file: ${PWD}/molecule/resources/requirements.yml
 
 driver:
   name: docker
