@@ -26,6 +26,7 @@ steps:
         from_secret: ansible_galaxy_token
     commands:
       - ansible-galaxy login --github-token $GALAXY_TOKEN
+      - ansible-galaxy import $DRONE_REPO_NAMESPACE $DRONE_REPO_NAME
 
 volumes:
   - name: dockersock
